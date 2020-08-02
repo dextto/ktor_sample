@@ -1,21 +1,44 @@
 package com.dextto
 
-import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import com.dextto.config.DbSettings
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.jackson.jackson
+import io.ktor.routing.Routing
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+const val DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
+
 fun Application.module(testing: Boolean = false) {
-    val server = embeddedServer(Netty, 8080) {
-        routing {
-            get("/") {
-                call.respondText("Hello, world!", ContentType.Text.Html)
-            }
+    install(DefaultHeaders)
+    install(CallLogging)
+    install(ContentNegotiation) {
+        jackson {
+            enable(SerializationFeature.INDENT_OUTPUT)
+            registerModule(JavaTimeModule().apply {
+                addSerializer(
+                    LocalDateTimeSerializer(
+                    DateTimeFormatter.ofPattern(DATE_TIME_FORMAT))
+                )
+                addDeserializer(
+                    LocalDateTime::class.java,
+                    LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT))
+                )
+            })
         }
     }
-    server.start(wait = true)
+    install(Routing) { // 3
+        todo(TodoService())
+    }
+    DbSettings.init()
 }

@@ -6,12 +6,13 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.`java-time`.datetime
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 // Table scheme
 object Users : IntIdTable() {  // TODO: extends UUIDTable
     val email = varchar("email", 120).default("")
-    val createdAt = datetime("created_at").default(LocalDateTime.now()) // TODO: UTC
-    val updatedAt = datetime("updated_at").default(LocalDateTime.now())
+    val createdAt = datetime("created_at").default(LocalDateTime.now(ZoneId.of("UTC")))
+    val updatedAt = datetime("updated_at").default(LocalDateTime.now(ZoneId.of("UTC")))
 }
 
 // Entity

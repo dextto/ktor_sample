@@ -1,7 +1,8 @@
 package com.dextto.domain.model
 
 import java.time.LocalDateTime
-data class TodoRequest(val content: String,
-                       val done: Boolean?,
+
+// TODO: validator
+data class UserRequest(val email: String,
                        val createdAt: LocalDateTime?,
                        val updatedAt: LocalDateTime?)

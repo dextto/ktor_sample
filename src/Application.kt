@@ -26,10 +26,7 @@ fun Application.module(testing: Boolean = false) {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT)
             registerModule(JavaTimeModule().apply {
-                addSerializer(
-                    LocalDateTimeSerializer(
-                    DateTimeFormatter.ofPattern(DATE_TIME_FORMAT))
-                )
+                addSerializer(LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)))
                 addDeserializer(
                     LocalDateTime::class.java,
                     LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT))
@@ -37,8 +34,8 @@ fun Application.module(testing: Boolean = false) {
             })
         }
     }
-    install(Routing) { // 3
-        todo(TodoService())
+    install(Routing) {
+        user(UserService())
     }
     DbSettings.init()
 }

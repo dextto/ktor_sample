@@ -11,13 +11,11 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.put
 import io.ktor.routing.route
-import io.ktor.util.KtorExperimentalAPI
-import com.dextto.domain.model.TodoRequest
-import com.dextto.TodoService
+import com.dextto.domain.model.UserRequest
 
-@KtorExperimentalAPI
-fun Routing.todo(service: TodoService) { // 1
-    route("todos") { // 2
+//@KtorExperimentalAPI
+fun Routing.user(service: UserService) { // 1
+    route("users") { // 2
         get {
             call.respond(service.getAll())
         }
@@ -27,14 +25,14 @@ fun Routing.todo(service: TodoService) { // 1
             call.respond(service.getById(id))
         }
         post {
-            val body = call.receive<TodoRequest>()
-            service.new(body.content)
+            val body = call.receive<UserRequest>()
+            service.new(body.email)
             call.response.status(HttpStatusCode.Created)
         }
         put("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: throw BadRequestException("Parameter id is null")
-            val body = call.receive<TodoRequest>()
+            val body = call.receive<UserRequest>()
             service.renew(id, body)
             call.response.status(HttpStatusCode.NoContent)
         }

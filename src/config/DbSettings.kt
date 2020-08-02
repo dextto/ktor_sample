@@ -1,6 +1,6 @@
 package com.dextto.config
 
-import com.dextto.infra.Todos
+import com.dextto.infra.Users
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
@@ -8,7 +8,6 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils.create
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
 
 object DbSettings {
     fun init() {
@@ -26,7 +25,7 @@ object DbSettings {
         Database.connect(dataSource)
 
         transaction {
-            create(Todos)
+            create(Users)
         }
     }
 }

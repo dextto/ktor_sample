@@ -11,11 +11,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object DbSettings {
     fun init() {
+        val dbUser = System.getenv("DB_USER")?: "root"
+        val dbPassword = System.getenv("DB_PASSWORD")?: "root"
+
         val config = HikariConfig().apply {
             jdbcUrl = "jdbc:mysql://localhost/test"
             driverClassName = "com.mysql.jdbc.Driver"
-            username = "root"
-            password = "root"
+            username = dbUser
+            password = dbPassword
             maximumPoolSize = 10
             isAutoCommit = false
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"

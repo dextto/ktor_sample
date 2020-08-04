@@ -13,9 +13,8 @@ import io.ktor.routing.put
 import io.ktor.routing.route
 import com.dextto.domain.model.UserRequest
 
-//@KtorExperimentalAPI
-fun Routing.user(service: UserService) { // 1
-    route("users") { // 2
+fun Routing.user(service: UserService) {
+    route("users") {
         get {
             call.respond(service.getAll())
         }

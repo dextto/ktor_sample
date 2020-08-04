@@ -1,15 +1,14 @@
 package com.dextto
 
-import io.ktor.features.NotFoundException
 import com.dextto.config.query
-import com.dextto.infra.User
-import com.dextto.infra.Users
 import com.dextto.domain.model.UserRequest
 import com.dextto.domain.model.UserResponse
+import com.dextto.infra.User
+import com.dextto.infra.Users
+import io.ktor.features.NotFoundException
 import org.jetbrains.exposed.sql.SortOrder
 import java.time.LocalDateTime
 
-//@KtorExperimentalAPI
 class UserService {
     suspend fun getAll() = query {
         User.all()

@@ -8,6 +8,7 @@ val exposed_version: String by project
 val mysql_connector_version: String by project
 val hikari_connection_pool: String by project
 val jackson_version: String by project
+val commons_email_version: String by project
 
 plugins {
     application
@@ -41,6 +42,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     implementation("mysql:mysql-connector-java:$mysql_connector_version")
     implementation("com.zaxxer:HikariCP:$hikari_connection_pool")
+
+    // Email
+    implementation("org.apache.commons:commons-email:$commons_email_version")
 
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-client-core:$ktor_version")
